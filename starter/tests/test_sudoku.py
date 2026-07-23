@@ -66,6 +66,21 @@ def test_clues_parameter_still_overrides_difficulty():
     assert sudoku_logic.get_clue_count(difficulty="hard", clues=50) == 50
 
 
+def test_hint_route_fills_one_empty_cell_and_locks_it(client):
+    response = client.get("/new?clues=35")
+    assert response.status_code == 200
+
+    hint_response = client.get("/hint")
+    assert hint_response.status_code == 200
+
+    payload = hint_response.get_json()
+    assert "row" in payload
+    assert "col" in payload
+    assert "value" in payload
+    assert CURRENT["hints_used"] == 1
+    assert [payload["row"], payload["col"]] in CURRENT["locked_cells"]
+
+
 def test_index_route_renders_home_page(client):
     response = client.get("/")
     assert response.status_code == 200

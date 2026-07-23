@@ -1,6 +1,7 @@
 // Client-side rendering and interaction for the Flask-backed Sudoku
 const SIZE = 9;
 let puzzle = [];
+let lockedCells = new Set();
 
 function createBoardElement() {
   const boardDiv = document.getElementById('sudoku-board');
@@ -27,6 +28,7 @@ function createBoardElement() {
 
 function renderPuzzle(puz) {
   puzzle = puz;
+  lockedCells = new Set();
   createBoardElement();
   const boardDiv = document.getElementById('sudoku-board');
   const inputs = boardDiv.getElementsByTagName('input');
@@ -51,6 +53,27 @@ async function newGame() {
   const res = await fetch('/new');
   const data = await res.json();
   renderPuzzle(data.puzzle);
+  document.getElementById('message').innerText = '';
+}
+
+async function applyHint() {
+  const res = await fetch('/hint');
+  const data = await res.json();
+  if (data.error) {
+    const msg = document.getElementById('message');
+    msg.style.color = '#d32f2f';
+    msg.innerText = data.error;
+    return;
+  }
+
+  const boardDiv = document.getElementById('sudoku-board');
+  const inputs = boardDiv.getElementsByTagName('input');
+  const idx = data.row * SIZE + data.col;
+  const inp = inputs[idx];
+  inp.value = data.value;
+  inp.disabled = true;
+  inp.className = 'sudoku-cell prefilled';
+  lockedCells.add(`${data.row}-${data.col}`);
   document.getElementById('message').innerText = '';
 }
 
