@@ -1,5 +1,4 @@
 import random
-
 from .board_utils import deep_copy
 from .constants import EMPTY, SIZE
 

@@ -102,7 +102,7 @@ def test_check_solution_route_reports_incorrect_cells(client):
     CURRENT["solution"] = solution
 
     board = [row[:] for row in solution]
-    board[0][0] = 2 if board[0][0] != 1 else 1
+    board[0][0] = 1 if board[0][0] != 1 else 2
 
     response = client.post("/check", json={"board": board})
     assert response.status_code == 200
