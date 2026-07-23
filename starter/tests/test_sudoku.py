@@ -33,6 +33,23 @@ def test_generate_puzzle_returns_puzzle_and_solution():
     assert puzzle != solution
     assert_complete_solution(solution)
     assert sum(cell == sudoku_logic.EMPTY for row in puzzle for cell in row) > 0
+    assert sudoku_logic.has_unique_solution(puzzle) is True
+
+
+def test_count_solutions_for_single_empty_cell_is_one():
+    _, solution = sudoku_logic.generate_puzzle(35)
+    board = [row[:] for row in solution]
+    board[0][0] = sudoku_logic.EMPTY
+
+    assert sudoku_logic.count_solutions(board) == 1
+
+
+def test_has_unique_solution_for_single_empty_cell():
+    _, solution = sudoku_logic.generate_puzzle(35)
+    board = [row[:] for row in solution]
+    board[0][0] = sudoku_logic.EMPTY
+
+    assert sudoku_logic.has_unique_solution(board) is True
 
 
 def test_index_route_renders_home_page(client):
