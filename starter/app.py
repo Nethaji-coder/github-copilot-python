@@ -15,8 +15,10 @@ def index():
 
 @app.route('/new')
 def new_game():
-    clues = int(request.args.get('clues', 35))
-    puzzle, solution = sudoku_logic.generate_puzzle(clues)
+    clues = request.args.get('clues', None)
+    difficulty = request.args.get('difficulty', None)
+    clue_count = sudoku_logic.get_clue_count(clues=clues, difficulty=difficulty)
+    puzzle, solution = sudoku_logic.generate_puzzle(clue_count, difficulty=difficulty)
     CURRENT['puzzle'] = puzzle
     CURRENT['solution'] = solution
     return jsonify({'puzzle': puzzle})

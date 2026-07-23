@@ -52,6 +52,20 @@ def test_has_unique_solution_for_single_empty_cell():
     assert sudoku_logic.has_unique_solution(board) is True
 
 
+def test_difficulty_normalization_is_case_insensitive():
+    assert sudoku_logic.normalize_difficulty("easy") == "easy"
+    assert sudoku_logic.normalize_difficulty("Easy") == "easy"
+    assert sudoku_logic.normalize_difficulty("EASY") == "easy"
+
+
+def test_default_difficulty_is_used_when_none_is_provided():
+    assert sudoku_logic.get_clue_count() == sudoku_logic.DIFFICULTY_CLUES[sudoku_logic.DEFAULT_DIFFICULTY]
+
+
+def test_clues_parameter_still_overrides_difficulty():
+    assert sudoku_logic.get_clue_count(difficulty="hard", clues=50) == 50
+
+
 def test_index_route_renders_home_page(client):
     response = client.get("/")
     assert response.status_code == 200

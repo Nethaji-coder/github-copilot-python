@@ -2,6 +2,7 @@ from .constants import EMPTY, SIZE
 from .board_utils import create_empty_board, deep_copy
 from .solver import count_solutions, fill_board, has_unique_solution, is_safe
 from .generator import generate_puzzle, remove_cells
+from .difficulty import DEFAULT_DIFFICULTY, DIFFICULTY_CLUES, get_clue_count, normalize_difficulty
 
 __all__ = [
     "EMPTY",
@@ -14,4 +15,8 @@ __all__ = [
     "has_unique_solution",
     "generate_puzzle",
     "remove_cells",
+    "DEFAULT_DIFFICULTY",
+    "DIFFICULTY_CLUES",
+    "get_clue_count",
+    "normalize_difficulty",
 ]

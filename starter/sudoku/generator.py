@@ -25,10 +25,11 @@ def remove_cells(board, clues):
         removed += 1
 
 
-def generate_puzzle(clues=35):
+def generate_puzzle(clues=35, difficulty=None):
     board = create_empty_board()
     fill_board(board)
     solution = deep_copy(board)
     puzzle = deep_copy(board)
-    remove_cells(puzzle, clues)
+    clue_count = clues if clues is not None else 35
+    remove_cells(puzzle, clue_count)
     return puzzle, solution
